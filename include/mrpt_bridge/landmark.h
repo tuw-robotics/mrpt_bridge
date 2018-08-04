@@ -63,6 +63,10 @@ bool convert(
 
 	);
 
+bool convert(
+  const mrpt_msgs::ObservationRangeBearing &_msg,
+  mrpt::obs::CObservationBearingRange &_obj);
+
 /** MRPT->ROS: Takes a CObservationBearingRange and outputs range data in
  * mrpt_msgs::ObservationRangeBearing
   * \return true on sucessful conversion, false on any error.

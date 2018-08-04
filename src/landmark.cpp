@@ -91,6 +91,38 @@ bool convert(
 }
 
 bool convert(
+  const mrpt_msgs::ObservationRangeBearing &_msg,
+  CObservationBearingRange &_obj)
+{
+    mrpt_bridge::convert(_msg.header.stamp, _obj.timestamp);
+    mrpt::poses::CPose3D sensor_pose_;
+    mrpt_bridge::convert(_msg.sensor_pose_on_robot, sensor_pose_);
+
+    _obj.setSensorPose(sensor_pose_);
+
+    _obj.sensorLabel = _msg.header.frame_id;
+    _obj.maxSensorDistance = _msg.max_sensor_distance;
+    _obj.minSensorDistance = _msg.min_sensor_distance;
+    _obj.sensor_std_pitch = _msg.sensor_std_pitch;
+    _obj.sensor_std_range = _msg.sensor_std_range;
+    _obj.sensor_std_yaw = _msg.sensor_std_yaw;
+
+    ASSERT_(_msg.sensed_data.size() >= 1);
+    const size_t N = _msg.sensed_data.size();
+
+    _obj.sensedData.resize(N);
+
+    for (std::size_t i_obj = 0; i_obj < N; ++i_obj)
+    {
+        _obj.sensedData[i_obj].range = _msg.sensed_data[i_obj].range;
+        _obj.sensedData[i_obj].landmarkID = _msg.sensed_data[i_obj].id;
+        _obj.sensedData[i_obj].pitch = _msg.sensed_data[i_obj].pitch;
+        _obj.sensedData[i_obj].yaw = _msg.sensed_data[i_obj].yaw;
+    }
+    return true;
+}
+
+bool convert(
 	const CObservationBearingRange& _obj,
 	mrpt_msgs::ObservationRangeBearing& _msg, geometry_msgs::Pose& _pose)
 {
