@@ -28,6 +28,10 @@ namespace mrpt_msgs
 template <class ContainerAllocator>
 struct ObservationRangeBearing_;
 typedef ObservationRangeBearing_<std::allocator<void>> ObservationRangeBearing;
+
+template <class ContainerAllocator>
+struct ObservationObject_;
+typedef ObservationObject_<std::allocator<void>> ObservationObject;
 }
 
 namespace mrpt
@@ -44,6 +48,7 @@ namespace mrpt
 namespace obs
 {
 class CObservationBearingRange;
+class CObservationObject;
 }
 }
 
@@ -85,6 +90,29 @@ bool convert(
 bool convert(
 	const mrpt::obs::CObservationBearingRange& _obj,
 	mrpt_msgs::ObservationRangeBearing& _msg, geometry_msgs::Pose& _pose);
+
+/** MRPT->ROS: Converts a MRPT CObservationObject into
+ * mrpt_msgs::ObservationObject + the relative pose of the range sensor
+ * wrt base_link
+ * \return true on sucessful conversion, false on any error.
+ * \sa ros2mrpt
+ */
+bool convert(
+    const mrpt::obs::CObservationObject &_obj,
+    mrpt_msgs::ObservationObject &_msg);
+
+/** ROS->MRPT: Converts a ObservationObject message from ROS into a CObservationObject of MRPT
+ * \return true on sucessful conversion, false on any error.
+ * \sa ros2mrpt
+ */
+bool convert(
+    const mrpt_msgs::ObservationObject &_msg,
+    mrpt::obs::CObservationObject& _obj);
+
+bool convert(
+    const mrpt_msgs::ObservationObject &_msg,
+    const mrpt::poses::CPose3D &_pose, 
+    mrpt::obs::CObservationObject& _obj);
 
 /** @} */
 
